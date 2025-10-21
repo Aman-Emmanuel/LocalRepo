@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sign in — Dark Theme</title>
+    <style>
+        :root{
+            --bg-1:#0b1020;
+            --bg-2:#0f1724;
+            --card:#0f1727;
+            --muted:#9aa4b2;
+            --accent:#6ee7b7;
+            --danger:#ff6b6b;
+            --glass: rgba(255,255,255,0.04);
+            --radius:12px;
+            --focus: 0 0 0 4px rgba(110,231,183,0.12);
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body{
+            margin:0;
+            background: radial-gradient(800px 400px at 10% 10%, rgba(110,231,183,0.04), transparent 6%),
+                                    linear-gradient(180deg,var(--bg-1), var(--bg-2));
+            color:#e6eef6;
+            -webkit-font-smoothing:antialiased;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:32px;
+            line-height:1.3;
+        }
+
+        .wrap{
+            width:100%;
+            max-width:420px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius:var(--radius);
+            padding:28px;
+            box-shadow: 0 6px 30px rgba(2,6,23,0.6);
+            backdrop-filter: blur(6px);
+        }
+
+        header{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            margin-bottom:22px;
+        }
+
+        .logo{
+            width:44px;
+            height:44px;
+            display:grid;
+            place-items:center;
+            background:linear-gradient(135deg, rgba(110,231,183,0.14), rgba(110,231,183,0.06));
+            border-radius:10px;
+            border:1px solid rgba(255,255,255,0.03);
+        }
+
+        .logo svg{filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6))}
+        h1{
+            font-size:18px;
+            margin:0;
+            letter-spacing: -0.2px;
+        }
+        p.lead{
+            margin:6px 0 0 0;
+            color:var(--muted);
+            font-size:13px;
+        }
+
+        form{margin-top:16px}
+        .field{
+            display:flex;
+            flex-direction:column;
+            gap:8px;
+            margin-bottom:14px;
+        }
+        label{
+            font-size:13px;
+            color:var(--muted);
+        }
+        input[type="email"],
+        input[type="password"]{
+            appearance:none;
+            background:var(--glass);
+            border:1px solid rgba(255,255,255,0.03);
+            color:inherit;
+            padding:12px 12px;
+            border-radius:10px;
+            outline:none;
+            font-size:14px;
+            transition:box-shadow .15s, border-color .12s, transform .06s;
+        }
+        .input-row{
+            position:relative;
+        }
+        .toggle{
+            position:absolute;
+            right:8px;
+            top:50%;
+            transform:translateY(-50%);
+            background:transparent;
+            border:none;
+            color:var(--muted);
+            padding:6px;
+            cursor:pointer;
+            border-radius:8px;
+        }
+        input:focus{
+            box-shadow:var(--focus);
+            border-color:rgba(110,231,183,0.28);
+        }
+
+        .row{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:10px;
+            margin-bottom:18px;
+        }
+
+        .checkbox{
+            display:flex;
+            gap:8px;
+            align-items:center;
+            color:var(--muted);
+            font-size:13px;
+        }
+        .checkbox input{width:16px;height:16px;accent-color:var(--accent)}
+
+        .link{
+            color:var(--muted);
+            font-size:13px;
+            text-decoration:none;
+        }
+        .btn{
+            width:100%;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:10px;
+            background:linear-gradient(90deg, rgba(110,231,183,0.12), rgba(110,231,183,0.06));
+            border:1px solid rgba(110,231,183,0.18);
+            color: var(--accent);
+            padding:12px;
+            border-radius:10px;
+            font-weight:600;
+            cursor:pointer;
+            transition:transform .08s, box-shadow .12s;
+        }
+        .btn:active{transform:translateY(1px)}
+        .meta{
+            margin-top:14px;
+            text-align:center;
+            color:var(--muted);
+            font-size:13px;
+        }
+
+        .divider{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            margin:18px 0;
+        }
+        .divider .line{
+            height:1px;
+            flex:1;
+            background:linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+        }
+        .social{
+            display:flex;
+            gap:8px;
+        }
+        .social button{
+            flex:1;
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:8px;
+            padding:10px;
+            border-radius:10px;
+            border:1px solid rgba(255,255,255,0.03);
+            background:transparent;
+            color:var(--muted);
+            cursor:pointer;
+            font-size:13px;
+        }
+
+        .error{
+            color:var(--danger);
+            font-size:13px;
+            margin-top:6px;
+        }
+
+        @media (max-width:420px){
+            body{padding:16px}
+            .wrap{padding:20px}
+        }
+    </style>
+</head>
+<body>
+    <main class="wrap" aria-labelledby="signin-heading">
+        <header>
+            <div class="logo" aria-hidden="true">
+                <!-- simple brand mark -->
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="5" fill="url(#g)"/>
+                    <defs>
+                        <linearGradient id="g" x1="0" x2="1">
+                            <stop offset="0" stop-color="#6ee7b7" stop-opacity="0.9"/>
+                            <stop offset="1" stop-color="#34d399" stop-opacity="0.8"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div>
+                <h1 id="signin-heading">Welcome back</h1>
+                <p class="lead">Sign in to continue to your account</p>
+            </div>
+        </header>
+
+        <form id="signin" novalidate>
+            <div class="field">
+                <label for="email">Email</label>
+                <div class="input-row">
+                    <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@company.com" required />
+                </div>
+                <div id="email-error" class="error" role="alert" aria-live="polite" style="display:none"></div>
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <div class="input-row">
+                    <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required minlength="6" />
+                    <button type="button" class="toggle" id="pw-toggle" aria-pressed="false" aria-label="Show password">👁️</button>
+                </div>
+                <div id="pw-error" class="error" role="alert" aria-live="polite" style="display:none"></div>
+            </div>
+
+            <div class="row">
+                <label class="checkbox"><input type="checkbox" id="remember" /> Remember me</label>
+                <a class="link" href="#" id="forgot">Forgot password?</a>
+            </div>
+
+            <button class="btn" type="submit" id="submit">
+                Sign in
+            </button>
+
+            <div class="divider" aria-hidden="true">
+                <div class="line"></div>
+                <div style="color:var(--muted);font-size:13px">or continue with</div>
+                <div class="line"></div>
+            </div>
+
+            <div class="social" aria-hidden="false">
+                <button type="button" title="Continue with Google">G</button>
+                <button type="button" title="Continue with GitHub">GH</button>
+                <button type="button" title="Continue with Microsoft">MS</button>
+            </div>
+
+            <div class="meta">
+                New here? <a class="link" href="#">Create an account</a>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        (function(){
+            const form = document.getElementById('signin');
+            const email = document.getElementById('email');
+            const pw = document.getElementById('password');
+            const pwToggle = document.getElementById('pw-toggle');
+            const emailErr = document.getElementById('email-error');
+            const pwErr = document.getElementById('pw-error');
+
+            pwToggle.addEventListener('click', () => {
+                const isHidden = pw.type === 'password';
+                pw.type = isHidden ? 'text' : 'password';
+                pwToggle.setAttribute('aria-pressed', String(isHidden));
+                pwToggle.textContent = isHidden ? '🙈' : '👁️';
+            });
+
+            function showError(el, msg){
+                el.textContent = msg;
+                el.style.display = 'block';
+            }
+            function clearErrors(){
+                emailErr.style.display = 'none';
+                pwErr.style.display = 'none';
+            }
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                clearErrors();
+                let valid = true;
+                if (!email.value || !/^\S+@\S+\.\S+$/.test(email.value)){
+                    showError(emailErr, 'Please enter a valid email address.');
+                    valid = false;
+                }
+                if (!pw.value || pw.value.length < 6){
+                    showError(pwErr, 'Password must be at least 6 characters.');
+                    valid = false;
+                }
+                if (!valid) return;
+
+                // Simulate successful sign-in (replace with real auth call)
+                const btn = document.getElementById('submit');
+                btn.disabled = true;
+                const old = btn.textContent;
+                btn.textContent = 'Signing in...';
+                setTimeout(() => {
+                    btn.textContent = 'Signed in ✓';
+                    btn.style.opacity = '0.9';
+                    // normally redirect or update UI here
+                }, 900);
+            });
+        })();
+    </script>
+</body>
+</html>
